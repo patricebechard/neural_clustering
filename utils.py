@@ -9,7 +9,7 @@ import os
 use_cuda = torch.cuda.is_available()
 results_dir = './results/'
 
-if not os.exists(results_dir):
+if not os.path.exists(results_dir):
 	os.mkdir(results_dir)
 
 def generate_gaussian_mixture_dataset(input_size, n_clusters=4, 
