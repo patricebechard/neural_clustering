@@ -4,13 +4,8 @@ from torch.autograd import Variable
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
 
 use_cuda = torch.cuda.is_available()
-results_dir = './results/'
-
-if not os.exists(results_dir):
-	os.mkdir(results_dir)
 
 def generate_gaussian_mixture_dataset(input_size, n_clusters=4, 
 									   span=5, dataset_size=10000):
@@ -75,7 +70,7 @@ def visualize_cluster_assignment(model, dataset, show=False):
 		data = dataset[dset][:][0].numpy()
 		real_labels = dataset[dset][:][1].numpy()
 		plt.scatter(data[:,0], data[:,1], marker='.', c=real_labels)
-		plt.savefig(results_dir + 'ground_truth_%s.png'%dset)
+		plt.savefig('ground_truth_%s.png'%dset)
 		plt.clf()
 
 		pred_labels = []
@@ -95,7 +90,7 @@ def visualize_cluster_assignment(model, dataset, show=False):
 
 		# plotting predictions
 		plt.scatter(data[:,0], data[:,1], marker='.', c=pred_labels)
-		plt.savefig(results_dir + 'prediction_%s.png'%dset)
+		plt.savefig('prediction_%s.png'%dset)
 		if show:
 			plt.show()
 		plt.clf()

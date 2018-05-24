@@ -6,7 +6,8 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
 from model import Clusterizer
-from utils import use_cuda, generate_dataset, visualize_cluster_assignment
+from utils import generate_gaussians_mixture_dataset, generate_two_moons_dataset
+from utils import use_cuda, visualize_cluster_assignment
 
 import sys
 import matplotlib.pyplot as plt
@@ -77,18 +78,20 @@ def evaluate(model, dataset):
 
 if __name__ == "__main__":
 
-	input_size = 50
+	input_size = 2
 	batch_size = 32
-	n_clusters = 4
+	n_clusters = 2
 	dataset_size = 10000
 
-	dataset, means, covs = generate_dataset(input_size=input_size, 
-											n_clusters=n_clusters,
-											dataset_size=dataset_size)
+	# dataset, means, covs = generate_dataset(input_size=input_size, 
+	# 										n_clusters=n_clusters,
+	# 										dataset_size=dataset_size)
 
-	dataloader = {x: DataLoader(dataset[x], batch_size=batch_size, shuffle=True) for x in ['train', 'valid', 'test']}
+	dataset = generate_two_moons_dataset(dataset_size)
 
-	model = Clusterizer(input_size=input_size, n_clusters=10)
+	dataloader = {x: DataLoader(dataset[x], batch_size=batch_size, shuffle=True) for x in dataset.keys()}
+
+	model = Clusterizer(input_size=input_size, n_clusters=2)
 
 	loss = train(model, dataloader)
 
